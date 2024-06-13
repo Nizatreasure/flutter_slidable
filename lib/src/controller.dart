@@ -190,6 +190,12 @@ class SlidableController {
 
   /// Whether this [close()] method has been called and not finished.
   bool get closing => _closing;
+
+  ///Whether an [ActionPane] is open
+  bool get isOpen => _isOpen;
+
+  bool _isOpen = false;
+
   bool _closing = false;
 
   bool _acceptRatio(double ratio) {
@@ -245,6 +251,7 @@ class SlidableController {
     Duration duration = _defaultMovementDuration,
     Curve curve = _defaultCurve,
   }) async {
+    _isOpen = false;
     _closing = true;
     await _animationController.animateBack(
       0,
@@ -318,6 +325,7 @@ class SlidableController {
     if (_animationController.value == 0) {
       this.ratio = 0.05 * ratio.sign;
     }
+    _isOpen = true;
     return _animationController.animateTo(
       ratio.abs(),
       duration: duration,
@@ -331,6 +339,7 @@ class SlidableController {
     Duration duration = _defaultMovementDuration,
     Curve curve = _defaultCurve,
   }) async {
+    _isOpen = false;
     await _animationController.animateTo(
       1,
       duration: _defaultMovementDuration,
